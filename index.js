@@ -1,33 +1,4 @@
-/**
- * require: no es ecma script modules, es comun js // http para crear request, crear un servidor, es un modulo
- * el callback se va a ejecutar cada vez que le llegue una resquest
- * a createServer se le pasa un callback // que es? una funcion que se ejecuta cuando ocurre algo
- * response tiene varios metodos que puedes ejecutar // en este le escriviremos una cabecera // test plain para saber que tipo de datos estas devolviendo
- * Content-Type: Tipo de datos que devolvemos: hay millones de tipos. Nosotros queremos devolver json -> application/json
- * Hay que usar JSON.stringify para que formatee los datos
- *
- * EXPRES para gestionar las rutas
- * el servidor en express es asyncrono, por eso a .listen le pasamos un calbackk, cuando termines de levantarte, devuelve el console.log
- *
- * API REST arquitectura escalable en api, cada recurso tiene un direccion unica a la que dirigirte
- * Lo que diferencia como se trata ese recurso es la accion (GET, PUT, DELETE...)
- * CRUD no es exactamente el mismo patron que REST
- * :id -> algo dinamico
- * en las rqeust siempre van a venir strings, los params
- *
- *
- */
-
-// SIN EXPRESS, todo esto (200, content type, json.stringy...) lo hace de forma automatica por nosotros
-// const app = http.createServer((request, response) => {
-//   response.writeHead(200, { "Content-Type": "application/json" });
-//   response.end(JSON.stringify(checkpoints));
-// });
-
-// const checkpoints = require('./moks/checkpoints.json');
-// const trakings = require('./moks/trakings.json');
 const { logic } = require('./logic');
-
 const express = require('express');
 const cors = require('cors');
 const csv = require('csv-parser');
@@ -46,10 +17,9 @@ fs.createReadStream('./moks/checkpoints.csv')
   .on('data', (data) => checkpoints.push(data))
   .on('end', () => {});
 
-
 const app = express();
 app.use(cors());
-app.use(express.json()); // esto es un modulo de expres (body-parser) que lo que hace es que en los POST puedas mandar informacion, la parse i te la devuelve en el body
+app.use(express.json()); 
 
 app.post('/api/orders', (request, response) => {
   const email = request.body.email;
