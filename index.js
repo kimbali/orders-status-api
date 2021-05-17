@@ -17,9 +17,10 @@ fs.createReadStream('./moks/checkpoints.csv')
   .on('data', (data) => checkpoints.push(data))
   .on('end', () => {});
 
+
 const app = express();
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
 
 app.post('/api/orders', (request, response) => {
   const email = request.body.email;
@@ -64,7 +65,8 @@ app.use((request, response) => {
   });
 });
 
-const PORT = 3003;
+const PORT = process.env.PORT || 3003;
+
 app.listen(PORT, () => {
   console.log(`Async server running on port ${PORT}`);
 });
